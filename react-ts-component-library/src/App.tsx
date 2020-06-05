@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import Button, { ButtonSize, ButtonType } from './components/Button/button';
+import Button from './components/Button/button';
 import Menu from './components/Menu/menu';
 import MenuItem from './components/Menu/menuItem';
 import SubMenu from './components/Menu/subMenu';
 import Icon from './components/Icon/icon';
+import Transition from './components/Transition/transition';
+
 library.add(fas)
 function App() {
+  const [ show, setShow] = useState(false)
   return (
     <div className="App">
       <Icon icon="arrow-down"  theme="primary" size="10x" />
@@ -32,10 +35,23 @@ function App() {
       </Menu>
       <Button onClick = {(e) => {e.preventDefault()}} >Hello</Button>
       <Button disabled>Disabled</Button>
-      <Button btnType={ButtonType.Primary} size={ButtonSize.Large}>Large Btn</Button>
-      <Button btnType={ButtonType.Danger} size={ButtonSize.Small}>Small Btn</Button>
-      <Button btnType={ButtonType.Link} href="https://www.baidu.com">Baidu Link</Button>
-      <Button btnType={ButtonType.Link} disabled href="https://www.baidu.com">Baidu Link</Button>
+      <Button btnType='primary' onClick={() => setShow(!show)}  size='lg'>Toggle Btn</Button>
+      <Transition
+        in={show}
+        timeout={300}
+        animation='zoom-in-left'
+      >
+        <div>
+          <ul>
+            <li>loram{1}</li>
+            <li>loram{2}</li>
+            <li>loram{3}</li>
+          </ul>
+        </div>
+      </Transition>
+      <Button btnType='danger' size='sm'>Small Btn</Button>
+      <Button btnType='link' href="https://www.baidu.com">Baidu Link</Button>
+      <Button btnType='link' disabled href="https://www.baidu.com">Baidu Link</Button>
     </div>
   );
 }
