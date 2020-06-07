@@ -15,22 +15,23 @@ export interface UploadFile {
   /** 文件状态 'ready' | 'uploading' | 'success' | 'error' */
   status?: UploadFileStatus;
   /** 上传百分比 */
-  precent ?: number;
+
+  percent?: number;
   /** 源文件 */
   raw ?: File;
   /** 成功上传 */
-  responce ?: any;
+  response?: any;
   /** 上传失败 */
-  error ?: any 
+  error ?: any
 }
 
 export interface UploadProps {
   /** 上传地址 */
   action: string;
   /** 要展示的上传文件列表数据 */
-  dafaultFileList ?: UploadFile[];
+  defaultFileList ?: UploadFile[];
   /** 上传之前对文件检查 */
-  beforeUpload ?: (file: File) => boolean | Promise<File>  ;
+  beforeUpload ?: (file: File) => boolean | Promise<File>;
   /** 上传进度 */
   onProgress ?: (percentage: number, file: File) => void;
   /** 上传成功 */
@@ -49,15 +50,15 @@ export interface UploadProps {
   /** 允许上传的文件类型 */
   accept?: string;
   /** 是否支持多选 */
-  multiple ?: boolean,
+  multiple?: boolean;
   /** 是否支持拖动上传 */
-  drag?: boolean,
+  drag?: boolean;
 }
 
 export const Upload: FC<UploadProps> = (props) => {
   const {
     action,
-    dafaultFileList,
+    defaultFileList,
     beforeUpload,
     onProgress,
     onSuccess,
@@ -73,9 +74,9 @@ export const Upload: FC<UploadProps> = (props) => {
     children,
     drag,
   } = props
-  
+
   const fileInput = useRef<HTMLInputElement>(null)
-  const [fileList, setFileList] = useState<UploadFile[]>( dafaultFileList || [])
+  const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || [])
 
   const updateFileList = (updateFile: UploadFile, updateObj: Partial<UploadFile>) => {
     setFileList(prevList => {
@@ -94,14 +95,14 @@ export const Upload: FC<UploadProps> = (props) => {
       fileInput.current.click()
     }
   }
-
+  
   const post = (file: File) => {
     let _file:UploadFile = {
       uid: Date.now() + 'upload-file',
       status: 'ready',
       name: file.name,
       size: file.size,
-      precent: 0,
+      percent: 0,
       raw: file
     }
 
@@ -110,41 +111,40 @@ export const Upload: FC<UploadProps> = (props) => {
       [_file, ...prevFileList]
     ))
     const formData = new FormData()
-      formData.append(name || 'file', file)
-      if (data) {
-        Object.keys(data).forEach(key => {
-          formData.append(key, data[key])
-        })
-      }
-      axios.post(action, formData, {
-        headers: {
-          ...headers,
-          'Content-Type': 'multipart/form-data'
-        },
-        withCredentials,
-        onUploadProgress: (e) => {
-          let percentage = Math.round((e.loaded * 100) / e.total) || 0
-          updateFileList(_file, {precent: percentage, status: 'uploading'})
-          if (percentage < 100) {
-            if (onProgress) {
-              onProgress(percentage, file)
-            }
+    formData.append(name || 'file', file)
+    if (data) {
+      Object.keys(data).forEach(key => {
+        formData.append(key, data[key])
+      })
+    } 
+    axios.post(action, formData, {
+      headers: {
+        ...headers,
+        'Content-Type': 'multipart/form-data'
+      },
+      withCredentials,
+      onUploadProgress: (e) => {
+        let percentage = Math.round((e.loaded * 100) / e.total) || 0
+        updateFileList(_file, { percent: percentage, status: 'uploading'})
+        if (percentage < 100) {
+          if (onProgress) {
+            onProgress(percentage, file)
           }
         }
-      }).then(res => {
-        console.log(res);
-        updateFileList(_file, {status: 'success', responce: res.data})
-        if (onSuccess) {
-          onSuccess(res.data, file)
-        }
-        onChange && onChange(file)
-      }).catch(err => {
-        updateFileList(_file, {status: 'error', error: err})
-        if (err && onError) {
-          onError(err, file)
-        }
-        onChange && onChange(file)
-      })
+      }
+    }).then(res => {
+      updateFileList(_file, {status: 'success', response: res.data})
+      if (onSuccess) {
+        onSuccess(res.data, file)
+      }
+      onChange && onChange(file)
+    }).catch(err => {
+      updateFileList(_file, {status: 'error', error: err})
+      if (err && onError) {
+        onError(err, file)
+      }
+      onChange && onChange(file)
+    })
   }
 
   const uploadFiles = (files: FileList) => {
@@ -159,7 +159,7 @@ export const Upload: FC<UploadProps> = (props) => {
             post(processedFile)
           })
         } else if (!!result) {
-          post (file)
+          post(file)
         }
       }
     })
@@ -187,32 +187,32 @@ export const Upload: FC<UploadProps> = (props) => {
   }
 
   return (
-    <div
+    <div 
       className="viking-upload-component"
     >
       <div
         className="viking-upload-input"
-        style={{display: 'inlint-block'}}
+        style={{display: 'inline-block'}}
         onClick={handleUploadClick}
-      >
-        {drag ? 
-        (<Dragger
-            onFile={(files) => {uploadFiles(files)}}
-          >
-          {children}
-        </Dragger>): {children}}
+        >
+          {drag ? 
+          (<Dragger
+              onFile={(files) => {uploadFiles(files)}}
+            >
+            {children}
+          </Dragger>): {children}}
+        <input
+          className="viking-file-input"
+          ref={fileInput}
+          style={{display: 'none'}}
+          onChange={handleFileChange}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+        />
       </div>
-      <input
-        className="viking-file-input"
-        ref={fileInput}
-        style={{display: 'none'}}
-        onChange={handleFileChange}
-        type="file"
-        accept={accept}
-        multiple={multiple}
-      />
       <UploadList 
-        fileList ={fileList}
+        fileList={fileList}
         onRemove={handleRemoveClick}
       />
     </div>

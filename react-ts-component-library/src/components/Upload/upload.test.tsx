@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/extend-expect'
+
 import React from 'react';
 import axios from 'axios'
 import { render, RenderResult, fireEvent, wait, createEvent } from '@testing-library/react'
@@ -31,7 +32,7 @@ const testFile = new File(['xyz'], 'test.png', {type: 'image/png'})
 describe('test upload component', () => {
   beforeEach(() => {
     wrapper = render(<Upload {...testProps}>Click to upload</Upload>)
-    fileInput = wrapper.container.querySelector('.vinking-file-input') as HTMLInputElement
+    fileInput = wrapper.container.querySelector('.viking-file-input') as HTMLInputElement
     uploadArea = wrapper.queryByText('Click to upload') as HTMLElement
   })
   it('upload process should works fine', async () => {
