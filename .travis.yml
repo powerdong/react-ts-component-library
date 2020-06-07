@@ -13,7 +13,7 @@ cache: yarn
 deploy: 
   provider: pages
   skip-cleanup: true
-  local-dir: react-ts-component-library/storybook-static
+  local-dir: storybook-static
   on:
     branch: master
   github-token: $GITHUB_TOKEN
