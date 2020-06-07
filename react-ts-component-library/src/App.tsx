@@ -1,59 +1,42 @@
-import React, { useState } from 'react';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import Button from './components/Button/button';
-import Menu from './components/Menu/menu';
-import MenuItem from './components/Menu/menuItem';
-import SubMenu from './components/Menu/subMenu';
-import Icon from './components/Icon/icon';
-import Transition from './components/Transition/transition';
+import React, { ChangeEvent } from 'react';
+import axios from 'axios';
 
-library.add(fas)
 function App() {
-  const [ show, setShow] = useState(false)
+  // const [ title, setTitle] = useState('')
+  // const postData = {
+  //   title: 'my title',
+  //   body: 'hellp man'
+  // }
+  // useEffect(() => {
+  //   axios.get('https://jsonplaceholder.typicode.com/posts')
+  //     .then(res => {
+  //       if (res.data) {
+  //         setTitle(res.data.title)   
+  //       }
+  //     })
+  // })
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      const uploadedFile = files[0]
+      const formData = new FormData()
+      formData.append(uploadedFile.name, uploadedFile)
+      axios.post('https://jsonplaceholder.typicode.com/posts', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then (res => {
+        console.log(res);
+      })
+    }
+  }
   return (
     <div className="App">
-      <Icon icon="arrow-down"  theme="primary" size="10x" />
-      <Menu defaultIndex={'0'} mode="vertical">
-        <MenuItem>
-          cool link
-        </MenuItem>
-        <MenuItem disabled>
-          cool link 2
-        </MenuItem>
-        <SubMenu title="dropdown">
-          <MenuItem>
-            dropdown 1
-          </MenuItem>
-          <MenuItem>
-            dropdown 2
-          </MenuItem>
-        </SubMenu>
-        <MenuItem>
-          cool link 3
-        </MenuItem>
-      </Menu>
-      <Button onClick = {(e) => {e.preventDefault()}} >Hello</Button>
-      <Button disabled>Disabled</Button>
-      <Button btnType='primary' onClick={() => setShow(!show)}  size='lg'>Toggle Btn</Button>
-      <Transition
-        in={show}
-        timeout={300}
-        animation='zoom-in-left'
-      >
-        <div>
-          <ul>
-            <li>loram{1}</li>
-            <li>loram{2}</li>
-            <li>loram{3}</li>
-          </ul>
-        </div>
-      </Transition>
-      <Button btnType='danger' size='sm'>Small Btn</Button>
-      <Button btnType='link' href="https://www.baidu.com">Baidu Link</Button>
-      <Button btnType='link' disabled href="https://www.baidu.com">Baidu Link</Button>
+      {/* <h1>{title}</h1> */}
+      <input type="file" name="myFile" id="" onChange={handleFileChange}/>
     </div>
   );
 }
 
 export default App;
+ 

@@ -1,9 +1,20 @@
 import React from 'react'
-import { render, RenderResult, fireEvent, cleanup, wait } from '@testing-library/react'
+import { render, RenderResult, fireEvent, wait } from '@testing-library/react'
 import Menu, {MenuProps} from './menu'
 import MenuItem from './menuItem'
 import SubMenu from './subMenu'
-
+jest.mock('../Icon/icon', () => {
+  return () => {
+    return <i className="fa" />
+  }
+})
+jest.mock('react-transition-group', () => {
+  return {
+    CSSTransition: (props: any) => {
+      return props.children
+    }
+  }
+})
 const testProps: MenuProps = {
   defaultIndex: '0',
   onSelect: jest.fn(),
@@ -19,26 +30,26 @@ const testVerProps: MenuProps = {
 const generateMenu = (props: MenuProps) => {
   return (
     <Menu {...props}>
-        <MenuItem>
+      <MenuItem>
         active
-        </MenuItem>
-        <MenuItem disabled>
-          disabled
-        </MenuItem>
+      </MenuItem>
+      <MenuItem disabled>
+        disabled
+      </MenuItem>
+      <MenuItem>
+        xyz
+      </MenuItem>
+      <SubMenu title="dropdown">
         <MenuItem>
-          xyz
+          drop1
         </MenuItem>
-        <SubMenu title="dropdown">
-          <MenuItem>
-            drop1
-          </MenuItem>
-        </SubMenu>
-        <SubMenu title="dropdown1">
-          <MenuItem>
-            opened1
-          </MenuItem>
-        </SubMenu>
-      </Menu>
+      </SubMenu>
+      <SubMenu title="opened">
+        <MenuItem>
+          opened1
+        </MenuItem>
+      </SubMenu>
+    </Menu>
   )
 }
 
@@ -64,7 +75,7 @@ let wrapper: RenderResult,
     activeElement: HTMLElement,
     disabledElement: HTMLElement
 
-describe('test Menu and MenuItem component', () => {
+describe('test Menu and MenuItem component in default(horizontal) mode', () => {
   // beforeEach 钩子函数会在每个 case 执行前都会执行
   beforeEach(() => {
     wrapper = render(generateMenu(testProps))
@@ -92,15 +103,7 @@ describe('test Menu and MenuItem component', () => {
     fireEvent.click(disabledElement)
     expect(disabledElement).not.toHaveClass('is-active')
     expect(testProps.onSelect).not.toHaveBeenCalledWith('1')
-  });
-  // 测试纵向排列
-  it('should render vertical mode when mode is set to vertical', () => {
-    cleanup()
-    const wrapper = render(generateMenu(testVerProps))
-    const menuElement = wrapper.getByTestId('test-menu')
-    expect(menuElement).toHaveClass('menu-vertical')
-  });
-  // hover 展示
+  })
   it('should show dropdown items when hover on subMenu', async () => {
     // 判断二级菜单是否默认隐藏
     expect(wrapper.queryByText('drop1')).not.toBeVisible()
@@ -113,27 +116,27 @@ describe('test Menu and MenuItem component', () => {
     fireEvent.click(wrapper.getByText('drop1'))
     expect(testProps.onSelect).toHaveBeenCalledWith('3-0')
     fireEvent.mouseLeave(dropdownElement)
-    await wait(() =>{
+    await wait(() => {
       expect(wrapper.queryByText('drop1')).not.toBeVisible()
     })
-  });
-  // 点击以后显示
-  it('should show dropdown items when click on subMenu', () => {
-    cleanup()
-    const wrapper = render(generateMenu(testVerProps))
-    wrapper.container.append(createStyleFile())
-    expect(wrapper.queryByText('drop1')).not.toBeVisible()
-    const dropdownElement = wrapper.getByText('dropdown')
-    fireEvent.click(dropdownElement)
-    expect(wrapper.queryByText('drop1')).toBeVisible()
-    fireEvent.click(dropdownElement)
-    expect(wrapper.queryByText('drop1')).not.toBeVisible()
-  });
-  // 测试默认展示
-  it('should show subMenu dropdown when defaultOpenSubMenus contains SubMenu index', () => {
-    cleanup()
-    const wrapper = render(generateMenu(testVerProps))
-    wrapper.container.append(createStyleFile())
-    expect(wrapper.queryByText('opened1')).toBeVisible()
   })
-});
+})
+describe('test Menu and MenuItem component in vertical mode', () => {
+  beforeEach(() => {
+    wrapper2 = render(generateMenu(testVerProps))
+    wrapper2.container.append(createStyleFile())
+  })
+  it('should render vertical mode when mode is set to vertical', () => {
+    const menuElement = wrapper2.getByTestId('test-menu')
+    expect(menuElement).toHaveClass('menu-vertical')
+  })
+  it('should show dropdown items when click on subMenu for vertical mode', () => {
+    const dropDownItem = wrapper2.queryByText('drop1')
+    expect(dropDownItem).not.toBeVisible()
+    fireEvent.click(wrapper2.getByText('dropdown'))
+    expect(dropDownItem).toBeVisible()
+  })
+  it('should show subMenu dropdown when defaultOpenSubMenus contains SubMenu index', () => {
+    expect(wrapper2.queryByText('opened1')).toBeVisible()
+  })
+})

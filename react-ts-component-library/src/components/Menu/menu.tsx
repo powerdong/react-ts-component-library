@@ -1,4 +1,4 @@
-import React, { useState, createContext} from 'react'
+import React, { useState, FC,CSSProperties, Children, FunctionComponentElement, cloneElement, createContext} from 'react'
 import classNames from 'classnames'
 import { MenuItemProps } from './menuItem'
 
@@ -6,11 +6,15 @@ type MenuMode = 'horizontal' | 'vertical'
 type SelectCallback = (selectedIndex: string) => void;
 
 export interface MenuProps {
+  /**默认展示第几项 */
   defaultIndex ?: string;
   className ?: string;
+  /**菜单横向排布还是纵向排布 `"horizontal" | "vertical"` */
   mode ?: MenuMode;
-  style ?: React.CSSProperties;
+  style ?: CSSProperties;
+  /** 旋转切换回调 */
   onSelect ?: SelectCallback;
+  /**是否默认展开子菜单 */
   defaultOpenSubMenus ?: string[];
 }
 
@@ -23,7 +27,14 @@ interface IMenuContext {
 
 export const MenuContext = createContext<IMenuContext>({index : '0'})
 
-const Menu: React.FC<MenuProps> = (props) => {
+/**
+ * 菜单导航
+ * ## 引用方法
+ * ```js
+ * import { Menu, MenuItem } from 'ts-comp-ui'
+ * ```
+ */
+export const Menu: FC<MenuProps> = (props) => {
   const { className, mode, style, children, defaultIndex, onSelect, defaultOpenSubMenus } = props
   const [ currentActive, setActive ] = useState(defaultIndex)
   const classes = classNames('viking-menu', className, {
@@ -47,14 +58,15 @@ const Menu: React.FC<MenuProps> = (props) => {
 
 
   const renderChildren = () => {
-    return React.Children.map(children, (child, index)=> {
-      const childElement = child as React.FunctionComponentElement<MenuItemProps>
+    return Children.map(children, (child, index) => {
+      const childElement = child as FunctionComponentElement<MenuItemProps>
       const { displayName } = childElement.type
       if (displayName === 'MenuItem' || displayName === 'SubMenu') {
         // 克隆一个元素，我们把想要克隆的元素放在第一个位置，想要传递的属性以对象的形式放在第二个位置
-        return React.cloneElement(childElement, {index: index.toString()})
+        return cloneElement(childElement, {index: index.toString()})
       } else {
         console.error('Warning: Menu has a child which is nort a MenuItem');
+        return null
       }
     })
   }
