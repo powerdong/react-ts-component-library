@@ -25,6 +25,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.10",
+    "@storybook/storybook-deployer": "^2.8.6",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "husky": "^4.2.5",
@@ -50,6 +51,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
+    "deploy-storybook": "storybook-to-ghpages",
     "prepublish": "yarn test:nowatch && yarn lint && yarn build",
     "lint": "eslint --ext js,ts,tsx src --max-warnings 5"
   },
