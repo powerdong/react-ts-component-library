@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- lts/*
+  - "stable"
 env:
   - CI=true
 # 默认是yarn, 如果有yarn.lock的话

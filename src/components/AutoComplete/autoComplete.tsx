@@ -58,7 +58,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
       setSuggstions([])
     }
     setHighLightIndex(-1)
-  }, [debounceValue])
+  }, [debounceValue, fetchSuggestions])
   const [ suggestions, setSuggstions ] = useState<DataSourceType []>([])
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
