@@ -1,10 +1,19 @@
 language: node_js
 node_js:
-  - "stable"
-cache: yarn
-  directories:
-  - node_modules
+- lts/*
 env:
   - CI=true
-install: yarn
-script: yarn build
+# 默认是yarn, 如果有yarn.lock的话
+install:
+  - yarn
+# 默认是 yarn test
+script:
+  - yarn build-storybook
+cache: yarn
+deploy: 
+  provider: pages
+  skip-cleanup: true
+  local-dir: react-ts-component-library/storybook-static
+  on:
+    branch: master
+  github-token: $GITHUB_TOKEN
