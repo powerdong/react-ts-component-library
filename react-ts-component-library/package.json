@@ -52,7 +52,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy-storybook": "storybook-to-ghpages",
-    "prepublish": "yarn test:nowatch && yarn lint && yarn build",
+    "prepublishOnly": "yarn test:nowatch && yarn lint && yarn build",
     "lint": "eslint --ext js,ts,tsx src --max-warnings 5"
   },
   "eslintConfig": {
