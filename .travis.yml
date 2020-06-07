@@ -1,8 +1,10 @@
 language: node_js
 node_js:
   - "stable"
-cache:
+cache: yarn
   directories:
   - node_modules
 env:
   - CI=true
+install: yarn
+script: yarn build
