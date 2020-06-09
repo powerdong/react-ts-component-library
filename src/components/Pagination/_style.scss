@@ -1,0 +1,86 @@
+.viking-pagination{
+  list-style: none;
+  font-size: 14px;
+  display: flex;
+  &.is-show {
+    display: none;
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+  }
+  >.viking-pagination-item {
+    display: inline-block;
+    min-width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: $white;
+    border: $pagination-border-width solid $pagination-border-color;
+    border-radius: $pagination-border-radius;
+    outline: 0;
+    cursor: pointer;
+    user-select: none;
+    &:hover{
+      border-color: $primary;
+      transition: all .3s;
+      & > span {
+        color: $primary;
+      }
+    }
+    &.is-active {
+      background-color: $white;
+      font-weight: 500;
+      color: $pagination-item-active-color;
+      border-color: $pagination-item-active-color;
+      &.is-disabled {
+        background:  $pagination-active-disabled-bg;
+        color: $white;
+        > span {
+          color: $white;
+        }
+        &:hover > span {
+          color: $white;
+        }
+      }
+    }
+    &.is-disabled {
+      background: $pagination-disabled-bg;
+      border-color: $pagination-disabled-border-color;
+      cursor: not-allowed;
+      > span {
+        color: $pagination-disabled-color;
+      }
+      &:hover > span{
+        color: $pagination-disabled-color
+      }
+    }
+  }
+  .viking-pagination-quick-jump {
+    display: flex;
+    align-items: center;
+    &.is-disabled > input {
+      background: $pagination-disabled-bg;
+      cursor: not-allowed;
+    }
+    >input {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      min-width: 0;
+      padding: 4px 11px;
+      color: $input-color;
+      font-size: $font-size-base;
+      line-height: $line-height-base;
+      background-color: $white;
+      outline:  none;
+      background-image: none;
+      border: $pagination-border-width solid $pagination-border-color;
+      border-radius: $pagination-border-radius;
+      transition: all .3s;
+      width: 50px;
+      margin: 0 8px;;
+    }
+  }
+}

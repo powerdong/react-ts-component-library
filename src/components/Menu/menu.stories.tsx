@@ -6,7 +6,7 @@ import MenuItem from './menuItem';
 import SubMenu from './subMenu'
 
 const defaultMenu = () => (
-  <Menu defaultIndex='0' onSelect={(index) => {action(`clicked ${index} item`)}}>
+  <Menu defaultIndex='0' onSelect={action('selected')}>
     <MenuItem>
       menu1
     </MenuItem>
@@ -20,7 +20,7 @@ const defaultMenu = () => (
 )
 
 const renderSubMenu = () => (
-  <Menu defaultIndex='0' onSelect={(index) => {action(`clicked ${index} item`)}}>
+  <Menu defaultIndex='0' onSelect={action('selected')}>
     <MenuItem>
       menu1
     </MenuItem>
@@ -39,7 +39,7 @@ const renderSubMenu = () => (
 )
 
 const renderVerticalMenu = () => (
-  <Menu defaultIndex='0' mode="vertical" onSelect={(index) => {action(`clicked ${index} item`)}}>
+  <Menu defaultIndex='0' mode="vertical" onSelect={action('selected')}>
     <MenuItem>
       menu1
     </MenuItem>

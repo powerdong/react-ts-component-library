@@ -286,3 +286,15 @@ $progress-bg:                       $gray-200 !default;
 $progress-border-radius:            $border-radius !default;
 $progress-bar-color:                $white !default;
 $progress-bar-transition:           width .6s ease !default;
+
+// Pagination 
+
+$pagination-border-radius:          $border-radius !default;
+$pagination-border-width:           $border-width !default;
+$pagination-border-color:           $gray-400 !default;
+$pagination-item-active-color:       $primary !default;
+$pagination-disabled-bg:                     $gray-200 !default;
+$pagination-disabled-border-color:           $gray-400 !default;
+$pagination-active-disabled-bg:           $gray-400 !default;
+$pagination-active-disabled-opacity:           0.25 !default;
+$pagination-disabled-color:     $gray-600 !default;
