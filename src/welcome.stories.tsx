@@ -1,11 +1,8 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import Welcome from './welcome'
 
 storiesOf('Welcome page', module)
   .add('welcome', () => {
-    return (
-      <>
-        <h1>Welcome</h1>
-      </>
-    )
+    return (<Welcome />)
   }, { info : { disable: true }})

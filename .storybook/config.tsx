@@ -11,7 +11,7 @@ const wrapperStyle: React.CSSProperties = {
 
 const storyWrapper = (stroyFn: any) => (
   <div style={wrapperStyle}>
-    <h3>组件演示</h3>
+    <h1 data-tool="mdnice编辑器" style={{marginTop: '30px', marginBottom: '15px', padding: '0px', color: 'black', fontSize: '1.7em', fontWeight: 'normal', borderBottom: '2px solid hsl(216, 100%, 68%)'}}><span className="prefix" style={{display: 'none'}} /><span className="content" style={{background: 'hsl(216, 100%, 68%)', color: 'white', padding: '3px 10px', borderTopRightRadius: '3px', borderTopLeftRadius: '3px', marginRight: '3px'}}>TS-Com-UI</span><span className="suffix" /></h1>
     {stroyFn()}
   </div>
 )
