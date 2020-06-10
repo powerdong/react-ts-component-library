@@ -27,10 +27,17 @@ import classNames from 'classnames';
 import useDebounce from '../../hooks/useDebounce';
 import useClickOutside from '../../hooks/useClickOutside';
 /**
- * 自动完成
- * 输入框自动完成功能
+ * ## AutoComplete 自动完成
+ * ---
+ * 输入框自动完成功能。
+ *
+ * ### 何时使用
+ * ---
+ * 需要自动完成时。
+ *
+ * ### 使用方式
  * ```js
- * import { autoComplete } from 'ts-com-ui'
+ * import { AutoComplete } from 'ts-com-ui'
  * ```
  */
 export var AutoComplete = function (props) {
@@ -63,7 +70,7 @@ export var AutoComplete = function (props) {
             setSuggstions([]);
         }
         setHighLightIndex(-1);
-    }, [debounceValue]);
+    }, [debounceValue, fetchSuggestions]);
     var _d = useState([]), suggestions = _d[0], setSuggstions = _d[1];
     var handleChange = function (e) {
         var value = e.target.value.trim();

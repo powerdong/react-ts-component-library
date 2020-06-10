@@ -9,12 +9,12 @@ export var UploadList = function (props) {
                 React.createElement(Icon, { icon: "file-alt", theme: "secondary" }),
                 item.name),
             React.createElement("span", { className: "file-status" },
-                item.status === 'uploading' && React.createElement(Icon, { icon: "spinner", spin: true, theme: "primary" }),
+                (item.status === 'uploading' || item.status === 'ready') && React.createElement(Icon, { icon: "spinner", spin: true, theme: "primary" }),
                 item.status === 'success' && React.createElement(Icon, { icon: "check-circle", theme: "success" }),
                 item.status === 'error' && React.createElement(Icon, { icon: "times-circle", theme: "danger" })),
             React.createElement("span", { className: "file-actions" },
                 React.createElement(Icon, { icon: "times", onClick: function () { onRemove(item); } })),
-            item.status === 'uploading' && React.createElement(Progress, { percent: item.precent || 0 })));
+            item.status === 'uploading' && React.createElement(Progress, { percent: item.percent || 0 })));
     })));
 };
 export default UploadList;

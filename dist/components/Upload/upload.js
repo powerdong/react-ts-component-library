@@ -20,10 +20,27 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import UploadList from './uploadList';
 import Dragger from './dragger';
+/**
+ * ## Upload上传
+ * ---
+ * 文件选择上传和拖拽上传控件。
+ *
+ * ### 何时使用
+ * ---
+ * 上传是将信息（网页、文字、图片、视频等）通过网页或者上传工具发布到远程服务器上的过程。
+ * - 当需要上传一个或一些文件时。
+ * - 当需要展现上传的进度时。
+ * - 当需要使用拖拽交互时。
+ *
+ * ### 使用方式
+ * ```js
+ * import { Upload上传 } from 'ts-com-ui'
+ * ```
+ */
 export var Upload = function (props) {
-    var action = props.action, dafaultFileList = props.dafaultFileList, beforeUpload = props.beforeUpload, onProgress = props.onProgress, onSuccess = props.onSuccess, onError = props.onError, onChange = props.onChange, onRemove = props.onRemove, name = props.name, headers = props.headers, data = props.data, withCredentials = props.withCredentials, accept = props.accept, multiple = props.multiple, children = props.children, drag = props.drag;
+    var action = props.action, defaultFileList = props.defaultFileList, beforeUpload = props.beforeUpload, onProgress = props.onProgress, onSuccess = props.onSuccess, onError = props.onError, onChange = props.onChange, onRemove = props.onRemove, name = props.name, headers = props.headers, data = props.data, withCredentials = props.withCredentials, accept = props.accept, multiple = props.multiple, children = props.children, drag = props.drag;
     var fileInput = useRef(null);
-    var _a = useState(dafaultFileList || []), fileList = _a[0], setFileList = _a[1];
+    var _a = useState(defaultFileList || []), fileList = _a[0], setFileList = _a[1];
     var updateFileList = function (updateFile, updateObj) {
         setFileList(function (prevList) {
             return prevList.map(function (file) {
@@ -47,7 +64,7 @@ export var Upload = function (props) {
             status: 'ready',
             name: file.name,
             size: file.size,
-            precent: 0,
+            percent: 0,
             raw: file
         };
         // setFileList([_file, ...fileList])
@@ -64,7 +81,7 @@ export var Upload = function (props) {
             withCredentials: withCredentials,
             onUploadProgress: function (e) {
                 var percentage = Math.round((e.loaded * 100) / e.total) || 0;
-                updateFileList(_file, { precent: percentage, status: 'uploading' });
+                updateFileList(_file, { percent: percentage, status: 'uploading' });
                 if (percentage < 100) {
                     if (onProgress) {
                         onProgress(percentage, file);
@@ -72,8 +89,7 @@ export var Upload = function (props) {
                 }
             }
         }).then(function (res) {
-            console.log(res);
-            updateFileList(_file, { status: 'success', responce: res.data });
+            updateFileList(_file, { status: 'success', response: res.data });
             if (onSuccess) {
                 onSuccess(res.data, file);
             }
@@ -124,9 +140,10 @@ export var Upload = function (props) {
         }
     };
     return (React.createElement("div", { className: "viking-upload-component" },
-        React.createElement("div", { className: "viking-upload-input", style: { display: 'inlint-block' }, onClick: handleUploadClick }, drag ?
-            (React.createElement(Dragger, { onFile: function (files) { uploadFiles(files); } }, children)) : { children: children }),
-        React.createElement("input", { className: "viking-file-input", ref: fileInput, style: { display: 'none' }, onChange: handleFileChange, type: "file", accept: accept, multiple: multiple }),
+        React.createElement("div", { className: "viking-upload-input", style: { display: 'inline-block' }, onClick: handleUploadClick },
+            drag ?
+                (React.createElement(Dragger, { onFile: function (files) { uploadFiles(files); } }, children)) : { children: children },
+            React.createElement("input", { className: "viking-file-input", ref: fileInput, style: { display: 'none' }, onChange: handleFileChange, type: "file", accept: accept, multiple: multiple })),
         React.createElement(UploadList, { fileList: fileList, onRemove: handleRemoveClick })));
 };
 Upload.defaultProps = {

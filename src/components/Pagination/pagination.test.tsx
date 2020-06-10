@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, RenderResult, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Pagination, { PaginationProps } from './pagination'
 
 const defaultProps: PaginationProps = {

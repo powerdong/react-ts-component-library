@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { FC } from 'react';
 
 var Welcome: FC = () => {

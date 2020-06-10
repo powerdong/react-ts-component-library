@@ -535,6 +535,77 @@ main {
       border-bottom: 0px;
       border-left: 2px solid #0d6efd; }
 
+.viking-pagination {
+  list-style: none;
+  font-size: 14px;
+  display: flex; }
+  .viking-pagination.is-show {
+    display: none; }
+  .viking-pagination.is-disabled {
+    cursor: not-allowed; }
+  .viking-pagination > .viking-pagination-item {
+    display: inline-block;
+    min-width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    outline: 0;
+    cursor: pointer;
+    user-select: none; }
+    .viking-pagination > .viking-pagination-item:hover {
+      border-color: #0d6efd;
+      transition: all .3s; }
+      .viking-pagination > .viking-pagination-item:hover > span {
+        color: #0d6efd; }
+    .viking-pagination > .viking-pagination-item.is-active {
+      background-color: #fff;
+      font-weight: 500;
+      color: #0d6efd;
+      border-color: #0d6efd; }
+      .viking-pagination > .viking-pagination-item.is-active.is-disabled {
+        background: #ced4da;
+        color: #fff; }
+        .viking-pagination > .viking-pagination-item.is-active.is-disabled > span {
+          color: #fff; }
+        .viking-pagination > .viking-pagination-item.is-active.is-disabled:hover > span {
+          color: #fff; }
+    .viking-pagination > .viking-pagination-item.is-disabled {
+      background: #e9ecef;
+      border-color: #ced4da;
+      cursor: not-allowed; }
+      .viking-pagination > .viking-pagination-item.is-disabled > span {
+        color: #6c757d; }
+      .viking-pagination > .viking-pagination-item.is-disabled:hover > span {
+        color: #6c757d; }
+  .viking-pagination .viking-pagination-quick-jump {
+    display: flex;
+    align-items: center; }
+    .viking-pagination .viking-pagination-quick-jump.is-disabled > input {
+      background: #e9ecef;
+      cursor: not-allowed; }
+    .viking-pagination .viking-pagination-quick-jump > input {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      min-width: 0;
+      padding: 4px 11px;
+      color: #495057;
+      font-size: 1rem;
+      line-height: 1.5;
+      background-color: #fff;
+      outline: none;
+      background-image: none;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: all .3s;
+      width: 50px;
+      margin: 0 8px; }
+
 .icon-primary {
   color: #0d6efd; }
 
@@ -650,9 +721,6 @@ main {
 .item-highlighted {
   background: #0d6efd;
   color: #fff; }
-
-.viking-upload-component {
-  width: 30%; }
 
 .viking-upload-list {
   margin: 0;

@@ -29,6 +29,7 @@ $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $gray-100 !default;
 $dark:          $gray-800 !default;
+$ac-bg:       #c7ecee !default;
 
 $theme-colors: 
 (
@@ -64,6 +65,7 @@ $font-weight-base:            $font-weight-normal !default;
 $line-height-base:            1.5 !default;
 $line-height-lg:              2 !default;
 $line-height-sm:              1.25 !default;
+$min-height:                  32px !default;
 
 // 标题大小
 $h1-font-size:                $font-size-base * 2.5 !default;
@@ -262,7 +264,7 @@ $input-border-radius-sm:                $border-radius-sm !default;
 
 $input-focus-bg:                        $input-bg !default;
 $input-focus-border-color:              lighten($primary, 25%) !default;
-$input-focus-width:                     .2rem !default;
+$input-focus-width:                     .1rem !default;
 $input-focus-color:                     $input-color !default;
 $input-focus-shadow-color:              rgba($primary, .25) !default;
 $input-focus-box-shadow:                0 0 0 $input-focus-width $input-focus-shadow-color !default;
@@ -298,3 +300,31 @@ $pagination-disabled-border-color:           $gray-400 !default;
 $pagination-active-disabled-bg:           $gray-400 !default;
 $pagination-active-disabled-opacity:           0.25 !default;
 $pagination-disabled-color:     $gray-600 !default;
+
+// Select
+$select-border-radius:          $border-radius !default;
+$select-border-width:           $border-width !default;
+$select-border-color:           $gray-400 !default;
+$select-border-active-color:           $primary !default;
+$select-color:           $gray-700 !default;
+$select-line-height:             $line-height-base !default;
+$select-padding-y:               .375rem !default;
+$select-padding-x:               .75rem !default;
+$select-font-family:             $font-family-base !default;
+$select-font-size:               $font-size-base !default;
+$select-line-height:             $line-height-base !default;
+$select-height:             $min-height !default;
+$select-item-active-color:             $gray-900 !default;
+$select-item-active-bg:             $ac-bg !default;
+$select-item-hover-bg:             $gray-300 !default;
+$select-disabled-bg:                     $gray-200 !default;
+$select-disabled-border-color:           $gray-400 !default;
+
+//不同大小按钮的 padding 和 font size
+$select-padding-y-sm:            .25rem !default;
+$select-padding-x-sm:            .5rem !default;
+$select-font-size-sm:            $font-size-sm !default;
+
+$select-padding-y-lg:            .5rem !default;
+$select-padding-x-lg:            1rem !default;
+$select-font-size-lg:            $font-size-lg !default;

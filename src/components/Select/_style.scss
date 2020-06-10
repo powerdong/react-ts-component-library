@@ -1,0 +1,83 @@
+.viking-select {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: $select-color;
+  font-size: $select-font-size;
+  line-height: $select-line-height;
+  height: $select-height;
+  cursor: pointer;
+  .arrow-icon {
+    transition: transform .25s ease-in-out;
+  }
+  .close-icon {
+    display: none;
+  }
+  &.is-clear {
+    &:hover{
+      .close-icon {
+        display: block;
+      }
+      .arrow-icon {
+        display: none;
+      }
+    }
+  }
+  &.is-opend .arrow-icon{
+    transform: rotate(180deg) !important;
+  }
+  .viking-selector {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $white;
+    border: $select-border-width solid $select-border-color;
+    border-radius: $select-border-radius;
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
+    line-height: $select-line-height;
+    height: $select-height;
+    box-sizing: border-box;
+    padding: $select-padding-y $select-padding-x;
+    &:hover {
+      border-color: $select-border-active-color ;
+    }
+  }
+  .viking-select-items {
+    position: absolute;
+    top: 40px;
+    z-index: 9999;
+    background-color: $white;
+    box-shadow: $box-shadow;
+    width: 100%;
+    .select-item {
+      position: relative;
+      display: block;
+      min-height: $select-height;
+      padding: $select-padding-y $select-padding-x;
+      line-height: $select-line-height;
+      cursor: pointer;
+      transition: background .3s ease;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      &:hover {
+        background: $select-item-hover-bg;
+      }
+      &.is-active {
+        background-color: $select-item-active-bg;
+        color: $select-item-active-color;
+      }
+      &.is-disabled {
+        // background: $select-disabled-bg;
+        color: $select-disabled-border-color;
+        cursor: not-allowed;
+        &:hover {
+          background-color: $white;
+        }
+      }
+    }
+  }
+}

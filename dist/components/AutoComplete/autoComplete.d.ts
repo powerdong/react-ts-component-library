@@ -13,10 +13,17 @@ export interface AutoCompleteProps extends Omit<InputProps, 'onSelect'> {
     renderOptions?: (item: DataSourceType) => ReactElement;
 }
 /**
- * 自动完成
- * 输入框自动完成功能
+ * ## AutoComplete 自动完成
+ * ---
+ * 输入框自动完成功能。
+ *
+ * ### 何时使用
+ * ---
+ * 需要自动完成时。
+ *
+ * ### 使用方式
  * ```js
- * import { autoComplete } from 'ts-com-ui'
+ * import { AutoComplete } from 'ts-com-ui'
  * ```
  */
 export declare const AutoComplete: FC<AutoCompleteProps>;
