@@ -153,6 +153,7 @@ export const Select: FC<SelectProps> = (props) => {
   const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
     setShowDropMenu(true)
     showSearch && setActiveValue(e.target.value)
+    showSearch && setShowValue(e.target.value)
     onChange && onChange(e.target.value)
   }
 
@@ -180,6 +181,8 @@ export const Select: FC<SelectProps> = (props) => {
         if (filterOption) {
           if (isRenderItem) {
             return cloneElement(childElemnt, {value: childElemnt.props.value,})
+          } else {
+            return null
           }
         } else {
           return cloneElement(childElemnt, {value: childElemnt.props.value,})
