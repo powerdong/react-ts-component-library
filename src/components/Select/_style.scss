@@ -5,14 +5,24 @@
   padding: 0;
   color: $select-color;
   font-size: $select-font-size;
+  height: $selector-height;
   line-height: $select-line-height;
-  height: $select-height;
   cursor: pointer;
   .arrow-icon {
     transition: transform .25s ease-in-out;
   }
   .close-icon {
     display: none;
+  }
+  &.select-large {
+    font-size: $select-font-size-lg;
+    line-height: $select-line-height-lg;
+    height: $selector-height-lg;
+  }
+  &.select-small {
+    font-size: $select-font-size-sm;
+    line-height: $select-line-height-sm;
+    height: $selector-height-sm;
   }
   &.is-clear {
     &:hover{
@@ -24,8 +34,26 @@
       }
     }
   }
+  &.is-disabled.is-clear {
+    &:hover{
+      .close-icon {
+        display: none;
+      }
+      .arrow-icon {
+        display: block;
+      }
+    }
+  }
   &.is-opend .arrow-icon{
     transform: rotate(180deg) !important;
+  }
+  &.is-disabled > .viking-selector {
+    cursor: not-allowed;
+    background-color: $select-disabled-bg;
+    color: $select-disabled-color;
+    &:hover {
+      border-color: $select-border-color;
+    }
   }
   .viking-selector {
     position: relative;
@@ -38,25 +66,35 @@
     transition: all .3s cubic-bezier(.645,.045,.355,1);
     width: 100%;
     line-height: $select-line-height;
-    height: $select-height;
+    height: 100%;
     box-sizing: border-box;
     padding: $select-padding-y $select-padding-x;
     &:hover {
       border-color: $select-border-active-color ;
     }
+    .viking-select-selection-search > input {
+      cursor: auto;
+      width: 100%;
+      border: none;
+      &:focus {
+        outline: none;
+      }
+    }
   }
   .viking-select-items {
     position: absolute;
-    top: 40px;
+    top: calc(100% + 1px);
     z-index: 9999;
     background-color: $white;
     box-shadow: $box-shadow;
     width: 100%;
-    .select-item {
+    .select-item,
+    .not-found {
       position: relative;
       display: block;
       min-height: $select-height;
       padding: $select-padding-y $select-padding-x;
+      font-size:  $select-font-size;
       line-height: $select-line-height;
       cursor: pointer;
       transition: background .3s ease;

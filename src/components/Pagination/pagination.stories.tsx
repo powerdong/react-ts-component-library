@@ -8,7 +8,7 @@ const defaultPagination = () => (
 )
 
 const changePagination = () => (
-  <Pagination defaultCurrent={1} total={50} showQuickJumper onChange={action('chagnge')} />
+  <Pagination defaultCurrent={1} total={50} showSizeChanger showQuickJumper onChange={action('chagnge')} />
 )
 
 const disabledPagination = () => (

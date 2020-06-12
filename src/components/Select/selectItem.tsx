@@ -6,7 +6,7 @@ type selValueType = string | number
 
 export interface SelectItemProps {
   /** 是否禁用 */
-  disabled?: boolean;
+  disabled ?: boolean;
   /** 根据此属性进行筛选 */
   value : selValueType;
   /** Option 器类名 */
@@ -15,7 +15,7 @@ export interface SelectItemProps {
   children ?:  ReactNode;
 }
 
-const SelectItem: FC<SelectItemProps> = (props) => {
+export const SelectItem: FC<SelectItemProps> = (props) => {
   const {
     disabled,
     value,
@@ -28,9 +28,9 @@ const SelectItem: FC<SelectItemProps> = (props) => {
 
   const classes = classNames('select-item', className, {
     'is-disabled': disabled,
-    'is-active': context.valueText === value
+    'is-active': context.valueText.toString() === value.toString()
   })
-
+  
   const handleClick = () => {
     if (context.onSelect && !disabled) {
       context.onSelect(value)

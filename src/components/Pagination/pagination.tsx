@@ -1,6 +1,9 @@
 import React, { FC, useState, KeyboardEvent, ChangeEvent, useEffect } from 'react'
 import classNames from 'classnames'
 import Icon from '../Icon'
+import Select from '../Select';
+
+const {Option} = Select
 
 export interface PaginationProps {
   /**当前页数 */
@@ -53,17 +56,17 @@ export const Pagination: FC<PaginationProps> = (props) => {
   const {
     current,
     defaultCurrent,
-    defaultPageSize,
+    defaultPageSize = 10,
     disabled,
     className,
     hideOnSinglePage,
     pageSize,
-    // pageSizeOptions,
+    pageSizeOptions = ['10', '20', '50', '100'],
     showQuickJumper,
-    // showSizeChanger,
+    showSizeChanger,
     total,
     onChange,
-    // onShowSizeChange
+    onShowSizeChange
   } = props;
 
   // 当前选中的是哪页
@@ -71,7 +74,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
   const [jumpPage, setJumpPage] = useState('')
   const [isShow, setIsShow] = useState(false)
   // 当前的页面大小
-  const nowPageSize = pageSize || defaultPageSize || 10
+  const nowPageSize = pageSize || defaultPageSize
   
   // 当前应该有几页
   const elementSum = Math.ceil(total as number / nowPageSize)
@@ -108,6 +111,23 @@ export const Pagination: FC<PaginationProps> = (props) => {
     }
     setJumpPage('')
   }
+
+  const renderPageSizeChange = () => (
+    <Select
+      className="pageSize-options"
+      value={nowPageSize}
+      style={{ width: 100, height: 32 }}
+      placeholder="Select a person"
+      onChange={onShowSizeChange}
+    >
+      {
+        pageSizeOptions?.map(item => (
+          <Option key={item} value={item}>{item}条/页</Option>
+        ))
+      }
+    </Select>
+  )
+
   const renderPaginationItem: FC<PaginationItemProps> = ({index}) => {
     // 类名样式
     const classes = classNames('viking-pagination-item', className, {
@@ -154,6 +174,12 @@ export const Pagination: FC<PaginationProps> = (props) => {
       >
         <Icon icon="angle-right"/>
       </li>
+      {
+        showSizeChanger &&
+        (<li>
+          {renderPageSizeChange()}
+        </li>)
+      }
       {
         showQuickJumper &&
         (<li>
