@@ -26,7 +26,7 @@ export const SelectItem: FC<SelectItemProps> = (props) => {
 
   const context = useContext(SelectContext)
 
-  const classes = classNames('select-item', className, {
+  const classes = classNames('select-item', className, context.dropdownClassName, {
     'is-disabled': disabled,
     'is-active': context.valueText.toString() === value.toString()
   })
@@ -49,6 +49,5 @@ SelectItem.defaultProps = {
 }
 
 SelectItem.displayName = 'SelectItem'
-
 
 export default SelectItem;

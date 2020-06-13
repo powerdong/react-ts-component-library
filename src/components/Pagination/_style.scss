@@ -60,6 +60,7 @@
   .viking-pagination-quick-jump {
     display: flex;
     align-items: center;
+    margin: 0 8px;
     &.is-disabled > input {
       background: $pagination-disabled-bg;
       cursor: not-allowed;

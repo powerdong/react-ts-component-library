@@ -15,8 +15,6 @@ export interface SelectProps {
   /** 默认获取焦点 */
   autoFocus ?: boolean;
   className ?: string;
-  /** 默认高亮第一个选项 */
-  defaultActiveFirstOption ?: boolean;
   /** 使单选模式可搜索 */
   showSearch?: boolean;
   /** 指定默认选中条目 */
@@ -47,7 +45,7 @@ export interface SelectProps {
   /** 获得焦点时回调 */
   onFocus ?: Function;
   /** 被选中时回调 */
-  onSelect ?: (value : valueType) => void;
+  onSelect ?: (value : any, ...rest: any[]) => void;
   /** 文本框值变化时的回调 */
   onSearch ?: (value : string) => void;
   filterOption ?: (inputValue: string, option ?: any) => void;
@@ -70,22 +68,37 @@ export interface ISelectContext {
 
 export const SelectContext = createContext<ISelectContext>({valueText: -1})
 
+/**
+ * ## Select选择器
+ * ---
+ * 下拉选择器。
+ * 
+ * ### 何时使用
+ * ---
+ * - 弹出一个下拉菜单给用户选择操作，用于代替原生的选择器，或者需要一个更优雅的多选器时。
+ * 
+ * ### 使用方式
+ * ```js
+ * import { Select } from 'ts-com-ui'
+ * const { Option } = Select
+ * ```
+ */
 export const Select: FC<SelectProps> = (props) => {
   const {
     children,
-    allowClear = false,
-    autoFocus = false,
+    allowClear,
+    autoFocus,
     showSearch,
     defaultValue,
-    disabled = false,
+    disabled,
     dropdownClassName,
     style,
     dropdownStyle,
-    listHeight = 256,
-    maxTagCount = 1000,
-    notFoundContent = 'Not Found',
+    listHeight,
+    maxTagCount,
+    notFoundContent,
     placeholder = '',
-    showArrow = true,
+    showArrow,
     size,
     value,
     onBlur,
@@ -99,19 +112,18 @@ export const Select: FC<SelectProps> = (props) => {
     className,
   } = props;
 
-  const [ currentShowValue, setShowValue ] = useState('')
+  const [ currentShowText, setShowText ] = useState('')
   const [ currentActiveValue, setActiveValue ] = useState(defaultValue || value || '')
   const [ isShowDropMenu, setShowDropMenu ] = useState(open)
   const [ isFocus, setFocus ] = useState(false)
   const selectContainer = useRef<HTMLDivElement>(null)
   const selectInp = useRef<HTMLInputElement>(null)
   useEffect(() => {
-    // 根据传入的value值，遍历children，找到对应值的展示文本
     if (children?.toString() !== currentActiveValue) {
-      React.Children.map(children, (child, index) => {
+      React.Children.map(children, (child) => {
         const childElemnt = child as FunctionComponentElement<SelectItemProps>
         if (currentActiveValue.toString() === childElemnt.props.value.toString()) {
-          setShowValue(childElemnt.props.children as string)
+          setShowText(childElemnt.props.children as string)
         }
       });
     }
@@ -120,7 +132,7 @@ export const Select: FC<SelectProps> = (props) => {
     setShowDropMenu(false)
     setFocus(false)
   })
-  const classes = classNames('viking-select', className, {
+  const selCls = classNames('viking-select', className, {
     'is-disabled': disabled,  
     'select-large': size === 'large',
     'select-small': size === 'small',
@@ -128,7 +140,7 @@ export const Select: FC<SelectProps> = (props) => {
     'is-clear': allowClear
   })
   
-  const handleClick = (value : valueType) => {
+  const handleSelectClick = (value : valueType) => {
     setActiveValue(value)
     onSelect && onSelect(value)
     setShowDropMenu(false)
@@ -137,7 +149,7 @@ export const Select: FC<SelectProps> = (props) => {
   const handleClearSelectorClick = (e: MouseEvent) => {
     e.stopPropagation()
     setActiveValue('')
-    setShowValue('')
+    setShowText('')
   }
   
   const handleFocus = () => {
@@ -153,19 +165,19 @@ export const Select: FC<SelectProps> = (props) => {
   const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
     setShowDropMenu(true)
     showSearch && setActiveValue(e.target.value)
-    showSearch && setShowValue(e.target.value)
+    showSearch && setShowText(e.target.value)
     onChange && onChange(e.target.value)
   }
 
   const handleSearch = (e:KeyboardEvent<HTMLInputElement>) => {
     if (e.keyCode === 13) {
-      onSearch && onSearch(String(currentShowValue))
+      onSearch && onSearch(String(currentShowText))
     }
   }
 
   const selItemContext: ISelectContext = {
     valueText: currentActiveValue,
-    onSelect: handleClick,
+    onSelect: handleSelectClick,
     defaultValue,
     dropdownStyle,
     dropdownClassName,
@@ -200,7 +212,7 @@ export const Select: FC<SelectProps> = (props) => {
       >
         <div className="viking-select-items" style={{maxHeight: `${listHeight}px`, overflow: 'auto'}} >
           {childrenComponent?.slice(0, maxTagCount)}
-          { childrenComponent?.length === 0 && <span className="not-found">{notFoundContent}</span>}
+          {childrenComponent?.length === 0 && <span className="not-found">{notFoundContent}</span>}
         </div>
       </Transition>
     )
@@ -214,7 +226,7 @@ export const Select: FC<SelectProps> = (props) => {
         ref={selectInp}
         autoFocus={autoFocus}
         placeholder={placeholder}
-        value={currentShowValue}
+        value={currentShowText}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
@@ -225,9 +237,19 @@ export const Select: FC<SelectProps> = (props) => {
   const isShowDownIcon =  !loading && showArrow && !isFocus
 
   return (
-    <div className={classes} ref={selectContainer} style={style}>
-      <div className="viking-selector" onKeyDown={handleSearch} onClick={() => {!disabled && setShowDropMenu(!isShowDropMenu); selectInp.current?.focus()}}>
-        { showSearch ? renderSearchSelector() : <span>{currentShowValue}</span>}
+    <div
+      className={selCls} 
+      ref={selectContainer}
+      style={style}
+      data-testid="test-select"
+    >
+      <div
+        className="viking-selector"
+        onKeyDown={handleSearch}
+        data-testid="test-selector"
+        onClick={() => {!disabled && setShowDropMenu(!isShowDropMenu); selectInp.current?.focus()}}
+      >
+        { showSearch ? renderSearchSelector() : <span>{currentShowText}</span>}
         { isShowDownIcon &&
           <Icon icon="angle-down"
           className={classNames({

@@ -8,11 +8,11 @@ const {Option} = Select
 const defaultSelect = () => (
   <>
     <Select
-      value={1}
+      value='jack'
       style={{ width: 120 }}
-      onChange={action('change')}>
-      <Option value={1}>10条信息</Option>
-      <Option value="lucy"><span>Lucy</span></Option>
+      onSelect={action('select')}>
+      <Option value="jack">Jack</Option>
+      <Option value="lucy">Lucy</Option>
       <Option value="disabled" disabled>
         Disabled
       </Option>
@@ -24,7 +24,7 @@ const defaultSelect = () => (
       style={{ width: 120 }}
       allowClear
       disabled
-      onChange={action('change')}>
+      onSelect={action('select')}>
       <Option value="Jack">Jack</Option>
       <Option value="Lucy">Lucy</Option>
       <Option value="Disabled" disabled>
@@ -37,7 +37,7 @@ const defaultSelect = () => (
       defaultValue="Lucy"
       style={{ width: 120 }}
       allowClear
-      onChange={action('change')}>
+      onSelect={action('select')}>
       <Option value="Jack">Jack</Option>
       <Option value="Lucy">Lucy</Option>
       <Option value="Disabled" disabled>
@@ -50,7 +50,7 @@ const defaultSelect = () => (
       defaultValue="Lucy"
       style={{ width: 120 }}
       loading
-      onChange={action('change')}>
+      onSelect={action('select')}>
       <Option value="Jack">Jack</Option>
       <Option value="Lucy">Lucy</Option>
       <Option value="Disabled" disabled>
@@ -68,7 +68,7 @@ const differentSizes = () => (
       style={{ width: 120 }}
       allowClear
       size="large"
-      onChange={action('change')}>
+      onSelect={action('select')}>
       <Option value="Jack">Jack</Option>
       <Option value="Lucy">Lucy</Option>
       <Option value="Disabled" disabled>
@@ -82,7 +82,7 @@ const differentSizes = () => (
       style={{ width: 120 }}
       allowClear
       size="small"
-      onChange={action('change')}>
+      onSelect={action('select')}>
       <Option value="Jack">Jack</Option>
       <Option value="Lucy">Lucy</Option>
       <Option value="Disabled" disabled>
@@ -94,33 +94,17 @@ const differentSizes = () => (
 )
 
 const searchSelect = () => {
-  function onChange(value : string) {
-    console.log(`selected ${value}`);
-  }
-  
-  function onBlur() {
-    console.log('blur');
-  }
-  
-  function onFocus() {
-    console.log('focus');
-  }
-  
-  function onSearch(val:string) {
-    console.log('search:', val);
-  }
-
   return (
     <Select
       showSearch
       style={{ width: 200 }}
       placeholder="Select a person"
-      onChange={onChange}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onSearch={onSearch}
+      onChange={action('change')}
+      onFocus={action('focus')}
+      onBlur={action('blur')}
+      onSelect={action('select')}
+      onSearch={action('search')}
       filterOption={(input, option) =>{
-        console.log('input: ', input)
         return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       }
@@ -133,7 +117,7 @@ const searchSelect = () => {
   )
 }
 
-storiesOf('Select Component', module)
+storiesOf('Select 选择器', module)
   .add('Select', defaultSelect)
   .add('不同尺寸 Select', differentSizes)
   .add('带搜索框的 Select', searchSelect)

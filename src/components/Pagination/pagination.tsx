@@ -74,14 +74,13 @@ export const Pagination: FC<PaginationProps> = (props) => {
   const [jumpPage, setJumpPage] = useState('')
   const [isShow, setIsShow] = useState(false)
   // 当前的页面大小
-  const nowPageSize = pageSize || defaultPageSize
+  const [nowPageSize, setNowPageSize] = useState(pageSize || defaultPageSize)
   
   // 当前应该有几页
   const elementSum = Math.ceil(total as number / nowPageSize)
   const elementArr: number[] = Array(elementSum).fill(1)
 
   useEffect(() => {
-    console.log('elementSum: ', elementSum);
     setIsShow(elementSum <=1 )
   }, [elementSum])
 
@@ -97,6 +96,12 @@ export const Pagination: FC<PaginationProps> = (props) => {
     }
     setNowSelIndex(index)
     onChange && onChange(index, nowPageSize)
+  }
+
+  const handleChangePageSize = (pageSize: number) => {
+    console.log('pageSize: ', pageSize);
+    setNowPageSize(pageSize)
+    onShowSizeChange && onShowSizeChange(nowSelIndex, pageSize)
   }
 
   const handlejumpToPage = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -115,10 +120,11 @@ export const Pagination: FC<PaginationProps> = (props) => {
   const renderPageSizeChange = () => (
     <Select
       className="pageSize-options"
+      disabled={disabled}
       value={nowPageSize}
       style={{ width: 100, height: 32 }}
       placeholder="Select a person"
-      onChange={onShowSizeChange}
+      onSelect={handleChangePageSize}
     >
       {
         pageSizeOptions?.map(item => (

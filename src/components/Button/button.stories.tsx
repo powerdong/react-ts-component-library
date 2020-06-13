@@ -24,7 +24,7 @@ const buttonWithType = () => (
 )
 
 
-storiesOf('Button Component', module)
+storiesOf('Button 按钮', module)
   .add('Button', defaultButton)
   .add('不同大小 Button', buttonWithSize)
   .add('不同类型 Button', buttonWithType)

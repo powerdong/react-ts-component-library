@@ -57,7 +57,7 @@ const renderVerticalMenu = () => (
   </Menu>
 )
 
-storiesOf('Menu component', module)
+storiesOf('Menu 导航菜单', module)
   .add('Menu', defaultMenu)
   .add('SubMenu', renderSubMenu)
   .add('纵向排列的 Menu', renderVerticalMenu)

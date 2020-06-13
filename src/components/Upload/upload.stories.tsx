@@ -31,5 +31,5 @@ const SimpleUpload = () => {
   )
 }
 
-storiesOf('Upload component', module)
+storiesOf('Upload 上传', module)
   .add('Upload', SimpleUpload)
