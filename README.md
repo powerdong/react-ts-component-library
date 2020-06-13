@@ -67,7 +67,7 @@ yarn build // 项目打包
 
 **上一次更新(2020-06-09)：** ~~增加 Pagination 分页组件~~
 
-**最近一次更新(2020-06-10)：** 编写 Select 选择组件
+**最近一次更新(2020-06-13)：** 增加 Select 选择组件
 
 使用中有任何问题或建议，欢迎 Issue！
 
@@ -117,7 +117,7 @@ yarn build // 项目打包
 - [ ] Radio单选框
 - [ ] Switch开关
 - [ ] Slider滑动输入条
-- [ ] Select选择器
+- [x] Select选择器
 - [ ] TreeSelect树选择
 - [ ] Transfer穿梭框
 - [ ] TimePicker时间选择框

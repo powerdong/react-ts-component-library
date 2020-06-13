@@ -23,7 +23,20 @@ var __rest = (this && this.__rest) || function (s, e) {
 import React from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-var Icon = function (props) {
+/**
+ * ## Icon图标
+ * ---
+ * 语义化的矢量图形。使用图标组件
+ *
+ * ### 何时使用
+ * - 使用 icon 标识
+ *
+ * ### 使用方式
+ * ```js
+ * import { Icon } from 'ts-com-ui'
+ * ```
+ */
+export var Icon = function (props) {
     var _a;
     // icon-primary
     var className = props.className, theme = props.theme, restProps = __rest(props, ["className", "theme"]);

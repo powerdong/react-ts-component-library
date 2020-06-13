@@ -48,7 +48,7 @@ export interface SelectProps {
   onSelect ?: (value : any, ...rest: any[]) => void;
   /** 文本框值变化时的回调 */
   onSearch ?: (value : string) => void;
-  filterOption ?: (inputValue: string, option ?: any) => void;
+  filterOption ?: (inputValue: string, option ?: any) => boolean;
   /** input 的 value 变化 */
   onChange ?: (value : any, ...rest: any[]) => void;
   /** 是否展开下拉菜单 */

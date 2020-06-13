@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import Icon from '../Icon';
+import Select from '../Select';
+var Option = Select.Option;
 /**
  * ## Pagination 分页
  * ---
@@ -17,22 +19,17 @@ import Icon from '../Icon';
  * ```
  */
 export var Pagination = function (props) {
-    var current = props.current, defaultCurrent = props.defaultCurrent, defaultPageSize = props.defaultPageSize, disabled = props.disabled, className = props.className, hideOnSinglePage = props.hideOnSinglePage, pageSize = props.pageSize, 
-    // pageSizeOptions,
-    showQuickJumper = props.showQuickJumper, 
-    // showSizeChanger,
-    total = props.total, onChange = props.onChange;
+    var current = props.current, defaultCurrent = props.defaultCurrent, _a = props.defaultPageSize, defaultPageSize = _a === void 0 ? 10 : _a, disabled = props.disabled, className = props.className, hideOnSinglePage = props.hideOnSinglePage, pageSize = props.pageSize, _b = props.pageSizeOptions, pageSizeOptions = _b === void 0 ? ['10', '20', '50', '100'] : _b, showQuickJumper = props.showQuickJumper, showSizeChanger = props.showSizeChanger, total = props.total, onChange = props.onChange, onShowSizeChange = props.onShowSizeChange;
     // 当前选中的是哪页
-    var _a = useState(current || defaultCurrent || 1), nowSelIndex = _a[0], setNowSelIndex = _a[1];
-    var _b = useState(''), jumpPage = _b[0], setJumpPage = _b[1];
-    var _c = useState(false), isShow = _c[0], setIsShow = _c[1];
+    var _c = useState(current || defaultCurrent || 1), nowSelIndex = _c[0], setNowSelIndex = _c[1];
+    var _d = useState(''), jumpPage = _d[0], setJumpPage = _d[1];
+    var _e = useState(false), isShow = _e[0], setIsShow = _e[1];
     // 当前的页面大小
-    var nowPageSize = pageSize || defaultPageSize || 10;
+    var _f = useState(pageSize || defaultPageSize), nowPageSize = _f[0], setNowPageSize = _f[1];
     // 当前应该有几页
     var elementSum = Math.ceil(total / nowPageSize);
     var elementArr = Array(elementSum).fill(1);
     useEffect(function () {
-        console.log('elementSum: ', elementSum);
         setIsShow(elementSum <= 1);
     }, [elementSum]);
     var handlePageClick = function (index) {
@@ -48,6 +45,11 @@ export var Pagination = function (props) {
         setNowSelIndex(index);
         onChange && onChange(index, nowPageSize);
     };
+    var handleChangePageSize = function (pageSize) {
+        console.log('pageSize: ', pageSize);
+        setNowPageSize(pageSize);
+        onShowSizeChange && onShowSizeChange(nowSelIndex, pageSize);
+    };
     var handlejumpToPage = function (e) {
         if (e.keyCode === 13 && Number(jumpPage)) {
             var index = nowSelIndex;
@@ -60,6 +62,12 @@ export var Pagination = function (props) {
             handlePageClick(Number(jumpPage));
         }
         setJumpPage('');
+    };
+    var renderPageSizeChange = function () {
+        var _a;
+        return (React.createElement(Select, { className: "pageSize-options", disabled: disabled, value: nowPageSize, style: { width: 100, height: 32 }, placeholder: "Select a person", onSelect: handleChangePageSize }, (_a = pageSizeOptions) === null || _a === void 0 ? void 0 : _a.map(function (item) { return (React.createElement(Option, { key: item, value: item },
+            item,
+            "\u6761/\u9875")); })));
     };
     var renderPaginationItem = function (_a) {
         var index = _a.index;
@@ -87,6 +95,8 @@ export var Pagination = function (props) {
         elementArr.map(function (item, index) { return renderPaginationItem({ index: index + 1 }); }),
         React.createElement("li", { className: classesItem, onClick: function () { return handlePageClick(nowSelIndex + 1); } },
             React.createElement(Icon, { icon: "angle-right" })),
+        showSizeChanger &&
+            (React.createElement("li", null, renderPageSizeChange())),
         showQuickJumper &&
             (React.createElement("li", null,
                 React.createElement("div", { className: classesJumpPage },
