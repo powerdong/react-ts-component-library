@@ -87,7 +87,7 @@
     "@types/storybook__addon-info": "^5.2.1",
     "cross-env": "^7.0.2",
     "node-gyp": "^5.1.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
